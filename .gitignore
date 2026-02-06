@@ -1,2 +1,5 @@
 #secrets
-mongo-secret.yml
+*secret*
+.env
+.env.*
+
