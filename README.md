@@ -6,25 +6,25 @@ A Kubernetes deployment that sets up a **MongoDB** database with **Mongo Express
 
 ```
 ┌──────────────┐       ┌─────────────────────┐
-│ mongo-secret │──────▶│  mongodb-deployment  │
-│ (credentials)│──┐    │  image: mongo        │
-└──────────────┘  │    │  port: 27017         │
-                  │    └──────────┬───────────┘
+│ mongo-secret │──────▶│  mongodb-deployment │
+│ (credentials)│──┐    │  image: mongo       │
+└──────────────┘  │    │  port: 27017        │
+                  │    └──────────┬──────────┘
                   │               │
-                  │    ┌──────────▼───────────┐
-                  │    │   mongodb-service     │
-                  │    │   ClusterIP: 27017    │
-                  │    └──────────┬───────────┘
+                  │    ┌──────────▼──────────┐
+                  │    │   mongodb-service   │
+                  │    │   ClusterIP: 27017  │
+                  │    └──────────┬──────────┘
                   │               │ (via ConfigMap)
                   │    ┌──────────▼───────────┐
-                  └───▶│ mongo-express-deploy  │
-                       │ image: mongo-express  │
-                       │ port: 8081            │
+                  └───▶│ mongo-express-deploy │
+                       │ image: mongo-express │
+                       │ port: 8081           │
                        └──────────┬───────────┘
                                   │
                        ┌──────────▼───────────┐
-                       │ mongo-express-service │
-                       │ NodePort: 30100       │
+                       │ mongo-express-service│
+                       │ NodePort: 30100      │
                        └──────────────────────┘
 ```
 
@@ -140,3 +140,26 @@ kubectl delete -f mongo-secret.yml
 - **Never commit secrets** with real credentials to version control. Use a secrets manager (e.g., HashiCorp Vault, Sealed Secrets) for production.
 - The `mongo-secret.yml` file in this repo uses **placeholder values** — replace them with your own base64-encoded credentials before deploying.
 - Consider adding `mongo-secret.yml` to `.gitignore` to prevent accidental credential leaks.
+
+## Deploying with Helm (Recommended)
+
+Alternatively to applying static manifests, this project provides a Helm chart in the `mongodb-chart` directory. This allows you to easily configure your deployment dynamically.
+
+### 1. Configure Values
+
+You can provide your own values when installing the chart. The defaults are defined in `mongodb-chart/values.yaml`. 
+**No base64 encoding is needed**—Helm automatically encodes your passwords during deployment!
+
+### 2. Install the Chart
+
+```bash
+helm install my-mongodb-stack ./mongodb-chart \
+  --set mongodb.auth.rootUsername=admin \
+  --set mongodb.auth.rootPassword=supersecret
+```
+
+### 3. Uninstall the Chart
+
+```bash
+helm uninstall my-mongodb-stack
+```

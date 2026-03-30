@@ -1,5 +1,6 @@
 #secrets
 *secret*
+!mongodb-chart/templates/mongo-secret.yaml
 .env
 .env.*
 

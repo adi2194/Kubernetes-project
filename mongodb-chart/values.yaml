@@ -1,0 +1,16 @@
+mongodb:
+  image:
+    repository: mongo
+    tag: latest
+    pullPolicy: IfNotPresent
+  auth:
+    rootUsername: *****
+    rootPassword: *****
+mongoExpress:
+  image:
+    repository: mongo-express
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    nodePort: 30100
