@@ -49,8 +49,8 @@ A Kubernetes deployment that sets up a **MongoDB** database with **Mongo Express
 Before deploying, you need to create `mongo-secret.yml` with your own credentials. Base64-encode your desired username and password:
 
 ```bash
-echo -n 'your-username' | base64
-echo -n 'your-password' | base64
+echo -n '<your-username>' | base64
+echo -n '<your-password>' | base64
 ```
 
 Then create `mongo-secret.yml`:
@@ -153,13 +153,13 @@ You can provide your own values when installing the chart. The defaults are defi
 ### 2. Install the Chart
 
 ```bash
-helm install my-mongodb-stack ./mongodb-chart \
-  --set mongodb.auth.rootUsername=admin \
-  --set mongodb.auth.rootPassword=supersecret
+helm install <release-name> ./mongodb-chart \
+  --set mongodb.auth.rootUsername=<your-admin> \
+  --set mongodb.auth.rootPassword=<your-password>
 ```
 
 ### 3. Uninstall the Chart
 
 ```bash
-helm uninstall my-mongodb-stack
+helm uninstall <release-name>
 ```
