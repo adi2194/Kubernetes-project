@@ -4,8 +4,8 @@ mongodb:
     tag: latest
     pullPolicy: IfNotPresent
   auth:
-    rootUsername: *****
-    rootPassword: *****
+    rootUsername: "*****"
+    rootPassword: "*****"
 mongoExpress:
   image:
     repository: mongo-express
